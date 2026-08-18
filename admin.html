@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Pakia Kazi | JRONETECHNOLOGY</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body{padding:40px 20px 80px;}
+  .admin-wrap{max-width:520px; margin:0 auto;}
+  .admin-header{text-align:center; margin-bottom:40px;}
+  .admin-header h1{font-size:32px; color:var(--off-white); margin-bottom:10px;}
+  .admin-header p{color:var(--silver); font-size:14px;}
+  .admin-card{
+    background:var(--black-2);
+    border:1px solid var(--line);
+    padding:30px 26px;
+    margin-bottom:24px;
+  }
+  .admin-card h2{font-size:18px; color:var(--gold-bright); margin-bottom:18px; font-family:'Space Mono',monospace; letter-spacing:0.05em;}
+  .admin-field{margin-bottom:18px;}
+  .admin-field label{
+    display:block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--gold-dim); margin-bottom:8px;
+  }
+  .admin-field input[type="text"], .admin-field input[type="password"], .admin-field select{
+    width:100%; background:var(--black); border:1px solid var(--line); color:var(--off-white);
+    padding:13px 14px; font-family:'Manrope',sans-serif; font-size:14px; border-radius:2px;
+  }
+  .admin-field input:focus, .admin-field select:focus{outline:none; border-color:var(--gold);}
+  .admin-field small{display:block; color:var(--silver); font-size:12px; margin-top:6px; line-height:1.5;}
+  .file-drop{
+    border:1.5px dashed var(--line);
+    padding:30px 20px;
+    text-align:center;
+    cursor:pointer;
+    color:var(--silver);
+    font-size:13px;
+    transition:border-color .25s;
+  }
+  .file-drop.has-file{border-color:var(--gold); color:var(--gold-bright);}
+  .file-drop input{display:none;}
+  .btn-submit{
+    width:100%;
+    background:linear-gradient(135deg, var(--gold-bright), var(--gold-dim));
+    color:var(--black); border:none;
+    padding:16px; font-weight:700; font-size:14px; letter-spacing:0.05em;
+    border-radius:2px; cursor:pointer; margin-top:6px;
+  }
+  .btn-submit:disabled{opacity:0.5; cursor:not-allowed;}
+  .status-box{
+    margin-top:20px; padding:14px 16px; border-radius:2px; font-size:13px; line-height:1.6;
+    display:none;
+  }
+  .status-box.show{display:block;}
+  .status-box.ok{background:rgba(80,180,100,0.12); border:1px solid rgba(80,180,100,0.4); color:#8fd99f;}
+  .status-box.err{background:rgba(200,80,80,0.12); border:1px solid rgba(200,80,80,0.4); color:#f0a0a0;}
+  .status-box.loading{background:rgba(201,162,75,0.10); border:1px solid var(--line); color:var(--gold-bright);}
+  .token-note{
+    font-size:12px; color:var(--silver); line-height:1.7; background:var(--black);
+    border:1px solid var(--line); padding:14px 16px; margin-bottom:18px;
+  }
+  .token-note a{color:var(--gold-bright);}
+</style>
+</head>
+<body>
+
+<div class="admin-wrap">
+  <div class="admin-header">
+    <h1>Pakia Kazi Mpya</h1>
+    <p>JRONETECHNOLOGY Admin — inaongeza picha moja kwa moja kwenye ukurasa wa "Kazi Zetu"</p>
+  </div>
+
+  <div class="admin-card">
+    <h2>01 · GitHub Token</h2>
+    <div class="token-note">
+      Unahitaji "Personal Access Token" ya GitHub (mara moja tu, itahifadhiwa kwenye simu yako). Nenda
+      <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a>
+      → "Generate new token (fine-grained)" → chagua repo yako pekee → ruhusa "Contents: Read and write" → tengeneza →
+      bandika hapa chini.
+    </div>
+    <div class="admin-field">
+      <label for="ghToken">Token</label>
+      <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
+      <small>Inahifadhiwa tu kwenye browser ya simu yako (localStorage) — haitumwi popote pengine isipokuwa GitHub.</small>
+    </div>
+    <div class="admin-field">
+      <label for="ghOwner">GitHub Username</label>
+      <input type="text" id="ghOwner" value="jronetechnology-bit">
+    </div>
+    <div class="admin-field">
+      <label for="ghRepo">Jina la Repository</label>
+      <input type="text" id="ghRepo" value="Jronetechnology">
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h2>02 · Taarifa za Kazi</h2>
+    <div class="admin-field">
+      <label for="workTitle">Jina la Kazi</label>
+      <input type="text" id="workTitle" placeholder="Mfano: XYZ Company Logo">
+    </div>
+    <div class="admin-field">
+      <label for="workSubtitle">Aina/Maelezo Mafupi</label>
+      <input type="text" id="workSubtitle" placeholder="Mfano: Brand Identity">
+    </div>
+    <div class="admin-field">
+      <label for="workCategory">Kundi (Category)</label>
+      <select id="workCategory">
+        <option value="logo">Logo Design</option>
+        <option value="poster">Poster / Event</option>
+        <option value="sports">Sports Design</option>
+        <option value="brand">Brand Promo</option>
+      </select>
+    </div>
+    <div class="admin-field">
+      <label for="workTag">Tag (itaonekana juu ya picha)</label>
+      <input type="text" id="workTag" placeholder="Mfano: Logo Design">
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <h2>03 · Picha</h2>
+    <div class="admin-field">
+      <div class="file-drop" id="fileDrop">
+        <span id="fileDropLabel">Bonyeza hapa kuchagua picha (.jpg/.png)</span>
+        <input type="file" id="workImage" accept="image/*">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-submit" id="submitBtn">Pakia Kazi Sasa</button>
+  <div class="status-box" id="statusBox"></div>
+</div>
+
+<script>
+(function(){
+  var tokenEl = document.getElementById('ghToken');
+  var ownerEl = document.getElementById('ghOwner');
+  var repoEl = document.getElementById('ghRepo');
+  var titleEl = document.getElementById('workTitle');
+  var subtitleEl = document.getElementById('workSubtitle');
+  var categoryEl = document.getElementById('workCategory');
+  var tagEl = document.getElementById('workTag');
+  var imageEl = document.getElementById('workImage');
+  var fileDrop = document.getElementById('fileDrop');
+  var fileDropLabel = document.getElementById('fileDropLabel');
+  var submitBtn = document.getElementById('submitBtn');
+  var statusBox = document.getElementById('statusBox');
+
+  // restore saved values
+  tokenEl.value = localStorage.getItem('jrone_gh_token') || '';
+  ownerEl.value = localStorage.getItem('jrone_gh_owner') || ownerEl.value;
+  repoEl.value = localStorage.getItem('jrone_gh_repo') || repoEl.value;
+
+  fileDrop.addEventListener('click', function(){ imageEl.click(); });
+  imageEl.addEventListener('change', function(){
+    if(imageEl.files && imageEl.files[0]){
+      fileDropLabel.textContent = imageEl.files[0].name;
+      fileDrop.classList.add('has-file');
+    }
+  });
+
+  function showStatus(type, msg){
+    statusBox.className = 'status-box show ' + type;
+    statusBox.innerHTML = msg;
+  }
+
+  function slugify(text){
+    return text.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+  }
+
+  function fileToBase64(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){
+        var result = reader.result;
+        var base64 = result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function ghRequest(url, options){
+    var token = tokenEl.value.trim();
+    options = options || {};
+    options.headers = Object.assign({
+      'Authorization': 'token ' + token,
+      'Accept': 'application/vnd.github+json'
+    }, options.headers || {});
+    var res = await fetch(url, options);
+    if(!res.ok){
+      var errText = await res.text();
+      throw new Error('GitHub API error (' + res.status + '): ' + errText.slice(0,200));
+    }
+    return res.json();
+  }
+
+  submitBtn.addEventListener('click', async function(){
+    var token = tokenEl.value.trim();
+    var owner = ownerEl.value.trim();
+    var repo = repoEl.value.trim();
+    var title = titleEl.value.trim();
+    var subtitle = subtitleEl.value.trim();
+    var category = categoryEl.value;
+    var tag = tagEl.value.trim() || category;
+    var file = imageEl.files[0];
+
+    if(!token || !owner || !repo || !title || !file){
+      showStatus('err', 'Tafadhali jaza taarifa zote muhimu (token, jina la kazi, na picha).');
+      return;
+    }
+
+    localStorage.setItem('jrone_gh_token', token);
+    localStorage.setItem('jrone_gh_owner', owner);
+    localStorage.setItem('jrone_gh_repo', repo);
+
+    submitBtn.disabled = true;
+    showStatus('loading', 'Inapakia picha...');
+
+    try {
+      var ext = file.name.split('.').pop().toLowerCase();
+      var filename = slugify(title) + '.' + ext;
+      var base64 = await fileToBase64(file);
+
+      var apiBase = 'https://api.github.com/repos/' + owner + '/' + repo + '/contents/';
+
+      // 1. Upload image file
+      await ghRequest(apiBase + encodeURIComponent(filename), {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: 'Add portfolio image: ' + title,
+          content: base64
+        })
+      });
+
+      showStatus('loading', 'Picha imepakiwa. Sasa inasasisha ukurasa wa Kazi Zetu...');
+
+      // 2. Fetch current kazi-zetu.html
+      var currentFile = await ghRequest(apiBase + 'kazi-zetu.html');
+      var currentContent = decodeURIComponent(escape(atob(currentFile.content.replace(/\n/g, ''))));
+
+      var altText = title.replace(/"/g, "'");
+      var newBlock =
+        '      <div class="gallery-item" data-cat="' + category + '">\n' +
+        '        <span class="tag">' + tag + '</span>\n' +
+        '        <div class="img-wrap"><img src="' + filename + '" alt="' + altText + '" loading="lazy"></div>\n' +
+        '        <div class="gallery-caption"><h4>' + title + '</h4><span>' + subtitle + '</span></div>\n' +
+        '      </div>\n' +
+        '    </div>\n' +
+        '  </div>\n' +
+        '</section>\n\n' +
+        '<div class="lightbox" id="lightbox">';
+
+      var anchor = '    </div>\n  </div>\n</section>\n\n<div class="lightbox" id="lightbox">';
+      if(currentContent.indexOf(anchor) === -1){
+        throw new Error('Haikuweza kupata sehemu sahihi ya kuongeza kwenye kazi-zetu.html. Wasiliana na msanidi.');
+      }
+      var updatedContent = currentContent.replace(anchor, newBlock);
+
+      var updatedBase64 = btoa(unescape(encodeURIComponent(updatedContent)));
+
+      // 3. Push updated kazi-zetu.html
+      await ghRequest(apiBase + 'kazi-zetu.html', {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: 'Update kazi-zetu.html: add ' + title,
+          content: updatedBase64,
+          sha: currentFile.sha
+        })
+      });
+
+      showStatus('ok', '✅ Kazi "' + title + '" imepakiwa kikamilifu! Netlify itasasisha tovuti ndani ya dakika 1-2.');
+      titleEl.value = '';
+      subtitleEl.value = '';
+      tagEl.value = '';
+      imageEl.value = '';
+      fileDropLabel.textContent = 'Bonyeza hapa kuchagua picha (.jpg/.png)';
+      fileDrop.classList.remove('has-file');
+
+    } catch(err){
+      showStatus('err', '❌ Hitilafu: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
