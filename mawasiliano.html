@@ -47,15 +47,16 @@
   <nav class="wrap">
     <a href="index.html" class="brand-mark"><span class="jr"><img src="jrone-logo-new.jpg" alt="JRONETECHNOLOGY logo"></span>ONE<span style="color:var(--gold-bright)">TECHNOLOGY</span></a>
     <ul id="navMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="kuhusu.html">Kuhusu</a></li>
-      <li><a href="huduma.html">Huduma</a></li>
-      <li><a href="mafunzo.html">Mafunzo</a></li>
-      <li><a href="kazi-zetu.html">Kazi Zetu</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="mawasiliano.html" class="active">Wasiliana</a></li>
+      <li><a href="index.html" data-sw="Home" data-en="Home">Home</a></li>
+      <li><a href="kuhusu.html" data-sw="Kuhusu" data-en="About">Kuhusu</a></li>
+      <li><a href="huduma.html" data-sw="Huduma" data-en="Services">Huduma</a></li>
+      <li><a href="mafunzo.html" data-sw="Mafunzo" data-en="Training">Mafunzo</a></li>
+      <li><a href="kazi-zetu.html" data-sw="Kazi Zetu" data-en="Our Work">Kazi Zetu</a></li>
+      <li><a href="blog.html" data-sw="Blog" data-en="Blog">Blog</a></li>
+      <li><a href="mawasiliano.html" class="active" data-sw="Wasiliana" data-en="Contact">Wasiliana</a></li>
     </ul>
-    <a href="https://wa.me/255662803302" class="nav-cta">Wasiliana</a>
+    <a href="https://wa.me/255662803302" class="nav-cta" data-sw="Wasiliana" data-en="Contact">Wasiliana</a>
+    <button class="lang-toggle-btn" id="langToggle" type="button">EN</button>
     <button class="nav-toggle-btn" id="navToggle" aria-label="Fungua menyu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -63,9 +64,9 @@
 </header>
 
 <section class="page-hero">
-  <span class="eyebrow">Wasiliana Nasi</span>
-  <h1>Tuanze Mradi Wako Leo</h1>
-  <p>Una wazo la design, tovuti, au unahitaji mafunzo? Wasiliana nasi kupitia WhatsApp, barua pepe, au fomu hapa chini.</p>
+  <span class="eyebrow" data-sw="Wasiliana Nasi" data-en="Contact Us">Wasiliana Nasi</span>
+  <h1 data-sw="Tuanze Mradi Wako Leo" data-en="Let's Start Your Project Today">Tuanze Mradi Wako Leo</h1>
+  <p data-sw="Una wazo la design, tovuti, au unahitaji mafunzo? Wasiliana nasi kupitia WhatsApp, barua pepe, au fomu hapa chini." data-en="Have a design or website idea, or need training? Contact us via WhatsApp, email, or the form below.">Una wazo la design, tovuti, au unahitaji mafunzo? Wasiliana nasi kupitia WhatsApp, barua pepe, au fomu hapa chini.</p>
 </section>
 
 <section class="section" style="padding-top:60px;">
@@ -142,5 +143,6 @@ function buildWaLink(e){
     }
   })();
 </script>
+<script src="lang.js"></script>
 </body>
 </html>

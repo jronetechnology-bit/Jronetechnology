@@ -47,15 +47,16 @@
   <nav class="wrap">
     <a href="index.html" class="brand-mark"><span class="jr"><img src="jrone-logo-new.jpg" alt="JRONETECHNOLOGY logo"></span>ONE<span style="color:var(--gold-bright)">TECHNOLOGY</span></a>
     <ul id="navMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="kuhusu.html">Kuhusu</a></li>
-      <li><a href="huduma.html">Huduma</a></li>
-      <li><a href="mafunzo.html" class="active">Mafunzo</a></li>
-      <li><a href="kazi-zetu.html">Kazi Zetu</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="mawasiliano.html">Wasiliana</a></li>
+      <li><a href="index.html" data-sw="Home" data-en="Home">Home</a></li>
+      <li><a href="kuhusu.html" data-sw="Kuhusu" data-en="About">Kuhusu</a></li>
+      <li><a href="huduma.html" data-sw="Huduma" data-en="Services">Huduma</a></li>
+      <li><a href="mafunzo.html" class="active" data-sw="Mafunzo" data-en="Training">Mafunzo</a></li>
+      <li><a href="kazi-zetu.html" data-sw="Kazi Zetu" data-en="Our Work">Kazi Zetu</a></li>
+      <li><a href="blog.html" data-sw="Blog" data-en="Blog">Blog</a></li>
+      <li><a href="mawasiliano.html" data-sw="Wasiliana" data-en="Contact">Wasiliana</a></li>
     </ul>
-    <a href="https://wa.me/255662803302" class="nav-cta">Wasiliana</a>
+    <a href="https://wa.me/255662803302" class="nav-cta" data-sw="Wasiliana" data-en="Contact">Wasiliana</a>
+    <button class="lang-toggle-btn" id="langToggle" type="button">EN</button>
     <button class="nav-toggle-btn" id="navToggle" aria-label="Fungua menyu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -63,9 +64,9 @@
 </header>
 
 <section class="page-hero">
-  <span class="eyebrow">Mafunzo</span>
-  <h1>Kozi Tunazofundisha</h1>
-  <p>Mbali na design, JRONETECHNOLOGY inatoa mafunzo ya kompyuta kwa vijana na wataalamu wanaotaka kujiendeleza, Moshi Kilimanjaro.</p>
+  <span class="eyebrow" data-sw="Mafunzo" data-en="Training">Mafunzo</span>
+  <h1 data-sw="Kozi Tunazofundisha" data-en="Courses We Teach">Kozi Tunazofundisha</h1>
+  <p data-sw="Mbali na design, JRONETECHNOLOGY inatoa mafunzo ya kompyuta kwa vijana na wataalamu wanaotaka kujiendeleza, Moshi Kilimanjaro." data-en="Besides design, JRONETECHNOLOGY offers computer training for young people and professionals looking to grow, in Moshi Kilimanjaro.">Mbali na design, JRONETECHNOLOGY inatoa mafunzo ya kompyuta kwa vijana na wataalamu wanaotaka kujiendeleza, Moshi Kilimanjaro.</p>
 </section>
 
 <section class="training" style="border-top:none;">
@@ -77,6 +78,7 @@
           <li><span class="c-tag">CS</span><div><div class="c-name">Computer Science</div><div class="c-desc">Misingi ya sayansi ya kompyuta na programu</div></div></li>
           <li><span class="c-tag">AI</span><div><div class="c-name">Artificial Intelligence &amp; Machine Learning</div><div class="c-desc">Utangulizi wa akili bandia na ujifunzaji wa mashine</div></div></li>
           <li><span class="c-tag">CA</span><div><div class="c-name">Computer Application</div><div class="c-desc">Matumizi ya jumla ya programu za kompyuta</div></div></li>
+          <li><span class="c-tag">CY</span><div><div class="c-name">Cyber Security &amp; Ethical Hacking</div><div class="c-desc">Misingi ya usalama wa mtandao na upimaji wa mifumo kwa njia halali</div></div></li>
         </ul>
       </div>
       <div class="training-group">
@@ -125,5 +127,6 @@
     }
   })();
 </script>
+<script src="lang.js"></script>
 </body>
 </html>

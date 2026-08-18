@@ -29,15 +29,16 @@
   <nav class="wrap">
     <a href="index.html" class="brand-mark"><span class="jr"><img src="jrone-logo-new.jpg" alt="JRONETECHNOLOGY logo"></span>ONE<span style="color:var(--gold-bright)">TECHNOLOGY</span></a>
     <ul id="navMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="kuhusu.html">Kuhusu</a></li>
-      <li><a href="huduma.html">Huduma</a></li>
-      <li><a href="mafunzo.html">Mafunzo</a></li>
-      <li><a href="kazi-zetu.html">Kazi Zetu</a></li>
-      <li><a href="blog.html" class="active">Blog</a></li>
-      <li><a href="mawasiliano.html">Wasiliana</a></li>
+      <li><a href="index.html" data-sw="Home" data-en="Home">Home</a></li>
+      <li><a href="kuhusu.html" data-sw="Kuhusu" data-en="About">Kuhusu</a></li>
+      <li><a href="huduma.html" data-sw="Huduma" data-en="Services">Huduma</a></li>
+      <li><a href="mafunzo.html" data-sw="Mafunzo" data-en="Training">Mafunzo</a></li>
+      <li><a href="kazi-zetu.html" data-sw="Kazi Zetu" data-en="Our Work">Kazi Zetu</a></li>
+      <li><a href="blog.html" class="active" data-sw="Blog" data-en="Blog">Blog</a></li>
+      <li><a href="mawasiliano.html" data-sw="Wasiliana" data-en="Contact">Wasiliana</a></li>
     </ul>
-    <a href="https://wa.me/255662803302" class="nav-cta">Wasiliana</a>
+    <a href="https://wa.me/255662803302" class="nav-cta" data-sw="Wasiliana" data-en="Contact">Wasiliana</a>
+    <button class="lang-toggle-btn" id="langToggle" type="button">EN</button>
     <button class="nav-toggle-btn" id="navToggle" aria-label="Fungua menyu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -45,9 +46,9 @@
 </header>
 
 <section class="page-hero">
-  <span class="eyebrow">Blog</span>
-  <h1>Makala na Vidokezo</h1>
-  <p>Mawazo, vidokezo, na habari kutoka JRONETECHNOLOGY kuhusu design, teknolojia, na kukua kwa brand yako.</p>
+  <span class="eyebrow" data-sw="Blog" data-en="Blog">Blog</span>
+  <h1 data-sw="Makala na Vidokezo" data-en="Articles & Tips">Makala na Vidokezo</h1>
+  <p data-sw="Mawazo, vidokezo, na habari kutoka JRONETECHNOLOGY kuhusu design, teknolojia, na kukua kwa brand yako." data-en="Thoughts, tips, and news from JRONETECHNOLOGY on design, technology, and growing your brand.">Mawazo, vidokezo, na habari kutoka JRONETECHNOLOGY kuhusu design, teknolojia, na kukua kwa brand yako.</p>
 </section>
 
 <section class="section" style="padding-top:60px;">
@@ -99,5 +100,6 @@
     }
   })();
 </script>
+<script src="lang.js"></script>
 </body>
 </html>
