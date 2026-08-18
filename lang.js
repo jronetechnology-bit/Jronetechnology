@@ -14,7 +14,11 @@
   function applyLang(lang){
     document.querySelectorAll('[data-sw]').forEach(function(el){
       var val = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-sw');
-      if(val !== null){
+      if(val === null){ return; }
+      var tag = el.tagName;
+      if(tag === 'INPUT' || tag === 'TEXTAREA'){
+        el.setAttribute('placeholder', val);
+      } else {
         el.innerHTML = val;
       }
     });
