@@ -3,296 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Pakia Kazi | JRONETECHNOLOGY</title>
+<title>Admin Dashboard | JRONETECHNOLOGY</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  body{padding:40px 20px 80px;}
-  .admin-wrap{max-width:520px; margin:0 auto;}
-  .admin-header{text-align:center; margin-bottom:40px;}
-  .admin-header h1{font-size:32px; color:var(--off-white); margin-bottom:10px;}
-  .admin-header p{color:var(--silver); font-size:14px;}
-  .admin-card{
-    background:var(--black-2);
-    border:1px solid var(--line);
-    padding:30px 26px;
-    margin-bottom:24px;
+  body{padding:28px 16px 90px;}
+  .dash{max-width:640px; margin:0 auto;}
+  .dash-head{text-align:center; margin-bottom:26px;}
+  .dash-head h1{font-size:30px; color:var(--off-white); margin-bottom:6px;}
+  .dash-head p{color:var(--silver); font-size:13px;}
+  .tabs{display:flex; gap:6px; margin-bottom:22px; flex-wrap:wrap;}
+  .tab-btn{
+    flex:1 1 auto; background:transparent; border:1px solid var(--line); color:var(--silver);
+    font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:11px 10px; cursor:pointer; border-radius:2px;
   }
-  .admin-card h2{font-size:18px; color:var(--gold-bright); margin-bottom:18px; font-family:'Space Mono',monospace; letter-spacing:0.05em;}
-  .admin-field{margin-bottom:18px;}
-  .admin-field label{
-    display:block; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.1em;
-    text-transform:uppercase; color:var(--gold-dim); margin-bottom:8px;
-  }
-  .admin-field input[type="text"], .admin-field input[type="password"], .admin-field select{
+  .tab-btn.active{background:var(--gold); color:var(--black); border-color:var(--gold); font-weight:700;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .card{background:var(--black-2); border:1px solid var(--line); padding:24px 22px; margin-bottom:18px;}
+  .card h2{font-size:14px; color:var(--gold-bright); margin-bottom:16px; font-family:'Space Mono',monospace; letter-spacing:0.05em; text-transform:uppercase;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-family:'Space Mono',monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:7px;}
+  .field input[type=text], .field input[type=password], .field select{
     width:100%; background:var(--black); border:1px solid var(--line); color:var(--off-white);
-    padding:13px 14px; font-family:'Manrope',sans-serif; font-size:14px; border-radius:2px;
+    padding:12px 13px; font-family:'Manrope',sans-serif; font-size:14px; border-radius:2px;
   }
-  .admin-field input:focus, .admin-field select:focus{outline:none; border-color:var(--gold);}
-  .admin-field small{display:block; color:var(--silver); font-size:12px; margin-top:6px; line-height:1.5;}
-  .file-drop{
-    border:1.5px dashed var(--line);
-    padding:30px 20px;
-    text-align:center;
-    cursor:pointer;
-    color:var(--silver);
-    font-size:13px;
-    transition:border-color .25s;
-  }
-  .file-drop.has-file{border-color:var(--gold); color:var(--gold-bright);}
-  .file-drop input{display:none;}
-  .btn-submit{
-    width:100%;
-    background:linear-gradient(135deg, var(--gold-bright), var(--gold-dim));
-    color:var(--black); border:none;
-    padding:16px; font-weight:700; font-size:14px; letter-spacing:0.05em;
-    border-radius:2px; cursor:pointer; margin-top:6px;
-  }
-  .btn-submit:disabled{opacity:0.5; cursor:not-allowed;}
-  .status-box{
-    margin-top:20px; padding:14px 16px; border-radius:2px; font-size:13px; line-height:1.6;
-    display:none;
-  }
-  .status-box.show{display:block;}
-  .status-box.ok{background:rgba(80,180,100,0.12); border:1px solid rgba(80,180,100,0.4); color:#8fd99f;}
-  .status-box.err{background:rgba(200,80,80,0.12); border:1px solid rgba(200,80,80,0.4); color:#f0a0a0;}
-  .status-box.loading{background:rgba(201,162,75,0.10); border:1px solid var(--line); color:var(--gold-bright);}
-  .token-note{
-    font-size:12px; color:var(--silver); line-height:1.7; background:var(--black);
-    border:1px solid var(--line); padding:14px 16px; margin-bottom:18px;
-  }
-  .token-note a{color:var(--gold-bright);}
+  .field input:focus, .field select:focus{outline:none; border-color:var(--gold);}
+  .field small{display:block; color:var(--silver); font-size:12px; margin-top:6px; line-height:1.5;}
+  .drop{border:1.5px dashed var(--line); padding:26px 16px; text-align:center; cursor:pointer; color:var(--silver); font-size:13px;}
+  .drop.has{border-color:var(--gold); color:var(--gold-bright);}
+  .drop input{display:none;}
+  .preview{margin-top:12px; text-align:center;}
+  .preview img{max-width:100%; max-height:220px; border:1px solid var(--line);}
+  .btn{width:100%; background:linear-gradient(135deg,var(--gold-bright),var(--gold-dim)); color:var(--black); border:none; padding:15px; font-weight:700; font-size:14px; letter-spacing:0.04em; border-radius:2px; cursor:pointer;}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  .btn-outline{display:block; text-align:center; border:1px solid var(--gold); color:var(--gold-bright); padding:13px; font-size:13px; font-weight:600; border-radius:2px; margin-bottom:10px;}
+  .status{margin-top:16px; padding:13px 15px; font-size:13px; line-height:1.6; border-radius:2px; display:none; word-break:break-word;}
+  .status.show{display:block;}
+  .status.ok{background:rgba(80,180,100,.12); border:1px solid rgba(80,180,100,.4); color:#8fd99f;}
+  .status.err{background:rgba(200,80,80,.12); border:1px solid rgba(200,80,80,.4); color:#f0a0a0;}
+  .status.loading{background:rgba(201,162,75,.1); border:1px solid var(--line); color:var(--gold-bright);}
+  .work-row{display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line);}
+  .work-row:last-child{border-bottom:none;}
+  .work-row img{width:58px; height:58px; object-fit:cover; border:1px solid var(--line); flex-shrink:0;}
+  .work-info{flex:1; min-width:0;}
+  .work-info b{display:block; color:var(--off-white); font-size:14px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .work-info span{font-family:'Space Mono',monospace; font-size:10.5px; color:var(--gold-dim); text-transform:uppercase;}
+  .del{background:transparent; border:1px solid rgba(200,80,80,.5); color:#f0a0a0; padding:8px 12px; font-size:12px; cursor:pointer; border-radius:2px;}
+  .count{color:var(--silver); font-size:12px; margin-bottom:10px;}
+  .note{font-size:12px; color:var(--silver); line-height:1.7; background:var(--black); border:1px solid var(--line); padding:13px 15px; margin-bottom:16px;}
+  .note a{color:var(--gold-bright);}
 </style>
 </head>
 <body>
-
-<div class="admin-wrap">
-  <div class="admin-header">
-    <h1>Pakia Kazi Mpya</h1>
-    <p>JRONETECHNOLOGY Admin — inaongeza picha moja kwa moja kwenye ukurasa wa "Kazi Zetu"</p>
+<div class="dash">
+  <div class="dash-head">
+    <h1>Admin Dashboard</h1>
+    <p>JRONETECHNOLOGY — simamia kazi za tovuti yako</p>
   </div>
 
-  <div class="admin-card">
-    <h2>01 · GitHub Token</h2>
-    <div class="token-note">
-      Unahitaji "Personal Access Token" ya GitHub (mara moja tu, itahifadhiwa kwenye simu yako). Nenda
-      <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a>
-      → "Generate new token (fine-grained)" → chagua repo yako pekee → ruhusa "Contents: Read and write" → tengeneza →
-      bandika hapa chini.
-    </div>
-    <div class="admin-field">
-      <label for="ghToken">Token</label>
-      <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
-      <small>Inahifadhiwa tu kwenye browser ya simu yako (localStorage) — haitumwi popote pengine isipokuwa GitHub.</small>
-    </div>
-    <div class="admin-field">
-      <label for="ghOwner">GitHub Username</label>
-      <input type="text" id="ghOwner" value="jronetechnology-bit">
-    </div>
-    <div class="admin-field">
-      <label for="ghRepo">Jina la Repository</label>
-      <input type="text" id="ghRepo" value="Jronetechnology">
-    </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="upload">Pakia</button>
+    <button class="tab-btn" data-tab="manage">Simamia</button>
+    <button class="tab-btn" data-tab="stats">Takwimu</button>
+    <button class="tab-btn" data-tab="settings">Mipangilio</button>
   </div>
 
-  <div class="admin-card">
-    <h2>02 · Taarifa za Kazi</h2>
-    <div class="admin-field">
-      <label for="workTitle">Jina la Kazi</label>
-      <input type="text" id="workTitle" placeholder="Mfano: XYZ Company Logo">
-    </div>
-    <div class="admin-field">
-      <label for="workSubtitle">Aina/Maelezo Mafupi</label>
-      <input type="text" id="workSubtitle" placeholder="Mfano: Brand Identity">
-    </div>
-    <div class="admin-field">
-      <label for="workCategory">Kundi (Category)</label>
-      <select id="workCategory">
-        <option value="logo">Logo Design</option>
-        <option value="poster">Poster / Event</option>
-        <option value="sports">Sports Design</option>
-        <option value="brand">Brand Promo</option>
-      </select>
-    </div>
-    <div class="admin-field">
-      <label for="workTag">Tag (itaonekana juu ya picha)</label>
-      <input type="text" id="workTag" placeholder="Mfano: Logo Design">
-    </div>
-  </div>
-
-  <div class="admin-card">
-    <h2>03 · Picha</h2>
-    <div class="admin-field">
-      <div class="file-drop" id="fileDrop">
-        <span id="fileDropLabel">Bonyeza hapa kuchagua picha (.jpg/.png)</span>
-        <input type="file" id="workImage" accept="image/*">
+  <div class="panel active" id="tab-upload">
+    <div class="card">
+      <h2>Kazi Mpya</h2>
+      <div class="field"><label for="wTitle">Jina la Kazi</label><input type="text" id="wTitle" placeholder="Mfano: XYZ Company Logo"></div>
+      <div class="field"><label for="wSub">Maelezo Mafupi</label><input type="text" id="wSub" placeholder="Mfano: Brand Identity"></div>
+      <div class="field"><label for="wCat">Kundi</label>
+        <select id="wCat">
+          <option value="logo">Logo Design</option>
+          <option value="poster">Poster / Event</option>
+          <option value="sports">Sports Design</option>
+          <option value="brand">Brand Promo</option>
+        </select>
       </div>
+      <div class="field"><label for="wTag">Tag (juu ya picha)</label><input type="text" id="wTag" placeholder="Mfano: Logo Design"></div>
+      <div class="field">
+        <label>Picha</label>
+        <div class="drop" id="drop"><span id="dropLabel">Bonyeza kuchagua picha</span><input type="file" id="wFile" accept="image/*"></div>
+        <div class="preview" id="preview"></div>
+        <small>Picha inabanwa kiotomatiki (max 1000px) ili tovuti ibaki na kasi.</small>
+      </div>
+      <button class="btn" id="uploadBtn">Pakia Kazi Sasa</button>
+      <div class="status" id="upStatus"></div>
     </div>
   </div>
 
-  <button class="btn-submit" id="submitBtn">Pakia Kazi Sasa</button>
-  <div class="status-box" id="statusBox"></div>
+  <div class="panel" id="tab-manage">
+    <div class="card">
+      <h2>Kazi Zilizopo</h2>
+      <button class="btn" id="loadBtn" style="margin-bottom:14px;">Pakia Orodha ya Kazi</button>
+      <div class="count" id="count"></div>
+      <div id="works"></div>
+      <div class="status" id="mgStatus"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-stats">
+    <div class="card">
+      <h2>Takwimu za Wageni</h2>
+      <div class="note">Idadi ya wageni, kurasa zinazotembelewa zaidi, na wanakotoka vinaonekana kwenye GoatCounter (bure).</div>
+      <a class="btn-outline" href="https://jronetechnology.goatcounter.com" target="_blank" rel="noopener">Fungua GoatCounter Dashboard</a>
+      <a class="btn-outline" href="index.html" target="_blank" rel="noopener">Ona Tovuti</a>
+      <a class="btn-outline" href="kazi-zetu.html" target="_blank" rel="noopener">Ona Ukurasa wa Kazi Zetu</a>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-settings">
+    <div class="card">
+      <h2>Mipangilio ya GitHub</h2>
+      <div class="note">
+        Tengeneza token kwenye <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>:
+        chagua repo yako tu, ruhusa "Contents: Read and write". Token inahifadhiwa kwenye simu yako tu.
+      </div>
+      <div class="field"><label for="sToken">Token</label><input type="password" id="sToken" placeholder="github_pat_..."></div>
+      <div class="field"><label for="sOwner">GitHub Username</label><input type="text" id="sOwner" value="jronetechnology-bit"></div>
+      <div class="field"><label for="sRepo">Repository</label><input type="text" id="sRepo" value="Jronetechnology"></div>
+      <div class="field"><label for="sBranch">Branch</label><input type="text" id="sBranch" value="main"></div>
+      <button class="btn" id="saveBtn">Hifadhi Mipangilio</button>
+      <button class="btn" id="testBtn" style="margin-top:10px; background:transparent; border:1px solid var(--gold); color:var(--gold-bright);">Jaribu Muunganisho</button>
+      <button class="btn" id="clearBtn" style="margin-top:10px; background:transparent; border:1px solid rgba(200,80,80,.5); color:#f0a0a0;">Futa Token Kwenye Simu Hii</button>
+      <div class="status" id="stStatus"></div>
+    </div>
+  </div>
 </div>
 
 <script>
 (function(){
-  var tokenEl = document.getElementById('ghToken');
-  var ownerEl = document.getElementById('ghOwner');
-  var repoEl = document.getElementById('ghRepo');
-  var titleEl = document.getElementById('workTitle');
-  var subtitleEl = document.getElementById('workSubtitle');
-  var categoryEl = document.getElementById('workCategory');
-  var tagEl = document.getElementById('workTag');
-  var imageEl = document.getElementById('workImage');
-  var fileDrop = document.getElementById('fileDrop');
-  var fileDropLabel = document.getElementById('fileDropLabel');
-  var submitBtn = document.getElementById('submitBtn');
-  var statusBox = document.getElementById('statusBox');
+  var $ = function(id){ return document.getElementById(id); };
+  var K = {t:'jrone_gh_token', o:'jrone_gh_owner', r:'jrone_gh_repo', b:'jrone_gh_branch'};
 
-  // restore saved values
-  tokenEl.value = localStorage.getItem('jrone_gh_token') || '';
-  ownerEl.value = localStorage.getItem('jrone_gh_owner') || ownerEl.value;
-  repoEl.value = localStorage.getItem('jrone_gh_repo') || repoEl.value;
+  $('sToken').value = localStorage.getItem(K.t) || '';
+  $('sOwner').value = localStorage.getItem(K.o) || $('sOwner').value;
+  $('sRepo').value = localStorage.getItem(K.r) || $('sRepo').value;
+  $('sBranch').value = localStorage.getItem(K.b) || $('sBranch').value;
 
-  fileDrop.addEventListener('click', function(){ imageEl.click(); });
-  imageEl.addEventListener('change', function(){
-    if(imageEl.files && imageEl.files[0]){
-      fileDropLabel.textContent = imageEl.files[0].name;
-      fileDrop.classList.add('has-file');
-    }
+  function cfg(){
+    return {
+      token: localStorage.getItem(K.t) || '',
+      owner: localStorage.getItem(K.o) || 'jronetechnology-bit',
+      repo: localStorage.getItem(K.r) || 'Jronetechnology',
+      branch: localStorage.getItem(K.b) || 'main'
+    };
+  }
+  function show(el, type, msg){ el.className = 'status show ' + type; el.innerHTML = msg; }
+
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.tab-btn').forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      $('tab-' + b.dataset.tab).classList.add('active');
+    });
   });
 
-  function showStatus(type, msg){
-    statusBox.className = 'status-box show ' + type;
-    statusBox.innerHTML = msg;
+  function api(path){
+    var c = cfg();
+    return 'https://api.github.com/repos/' + c.owner + '/' + c.repo + '/contents/' + path;
   }
-
-  function slugify(text){
-    return text.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-  }
-
-  function fileToBase64(file){
-    return new Promise(function(resolve, reject){
-      var reader = new FileReader();
-      reader.onload = function(){
-        var result = reader.result;
-        var base64 = result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function ghRequest(url, options){
-    var token = tokenEl.value.trim();
-    options = options || {};
-    options.headers = Object.assign({
-      'Authorization': 'token ' + token,
-      'Accept': 'application/vnd.github+json'
-    }, options.headers || {});
-    var res = await fetch(url, options);
+  async function gh(url, opts){
+    var c = cfg();
+    if(!c.token){ throw new Error('Weka token kwanza kwenye tab ya Mipangilio.'); }
+    opts = opts || {};
+    opts.headers = Object.assign({'Authorization':'Bearer ' + c.token, 'Accept':'application/vnd.github+json'}, opts.headers || {});
+    var res = await fetch(url, opts);
     if(!res.ok){
-      var errText = await res.text();
-      throw new Error('GitHub API error (' + res.status + '): ' + errText.slice(0,200));
+      var t = await res.text();
+      throw new Error('GitHub (' + res.status + '): ' + t.slice(0,180));
     }
     return res.json();
   }
+  function dec(b64){ return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
+  function enc(str){ return btoa(unescape(encodeURIComponent(str))); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
 
-  submitBtn.addEventListener('click', async function(){
-    var token = tokenEl.value.trim();
-    var owner = ownerEl.value.trim();
-    var repo = repoEl.value.trim();
-    var title = titleEl.value.trim();
-    var subtitle = subtitleEl.value.trim();
-    var category = categoryEl.value;
-    var tag = tagEl.value.trim() || category;
-    var file = imageEl.files[0];
-
-    if(!token || !owner || !repo || !title || !file){
-      showStatus('err', 'Tafadhali jaza taarifa zote muhimu (token, jina la kazi, na picha).');
-      return;
-    }
-
-    localStorage.setItem('jrone_gh_token', token);
-    localStorage.setItem('jrone_gh_owner', owner);
-    localStorage.setItem('jrone_gh_repo', repo);
-
-    submitBtn.disabled = true;
-    showStatus('loading', 'Inapakia picha...');
-
-    try {
-      var ext = file.name.split('.').pop().toLowerCase();
-      var filename = slugify(title) + '.' + ext;
-      var base64 = await fileToBase64(file);
-
-      var apiBase = 'https://api.github.com/repos/' + owner + '/' + repo + '/contents/';
-
-      // 1. Upload image file
-      await ghRequest(apiBase + encodeURIComponent(filename), {
-        method: 'PUT',
-        body: JSON.stringify({
-          message: 'Add portfolio image: ' + title,
-          content: base64
-        })
-      });
-
-      showStatus('loading', 'Picha imepakiwa. Sasa inasasisha ukurasa wa Kazi Zetu...');
-
-      // 2. Fetch current kazi-zetu.html
-      var currentFile = await ghRequest(apiBase + 'kazi-zetu.html');
-      var currentContent = decodeURIComponent(escape(atob(currentFile.content.replace(/\n/g, ''))));
-
-      var altText = title.replace(/"/g, "'");
-      var newBlock =
-        '      <div class="gallery-item" data-cat="' + category + '">\n' +
-        '        <span class="tag">' + tag + '</span>\n' +
-        '        <div class="img-wrap"><img src="' + filename + '" alt="' + altText + '" loading="lazy"></div>\n' +
-        '        <div class="gallery-caption"><h4>' + title + '</h4><span>' + subtitle + '</span></div>\n' +
-        '      </div>\n' +
-        '    </div>\n' +
-        '  </div>\n' +
-        '</section>\n\n' +
-        '<div class="lightbox" id="lightbox">';
-
-      var anchor = '    </div>\n  </div>\n</section>\n\n<div class="lightbox" id="lightbox">';
-      if(currentContent.indexOf(anchor) === -1){
-        throw new Error('Haikuweza kupata sehemu sahihi ya kuongeza kwenye kazi-zetu.html. Wasiliana na msanidi.');
-      }
-      var updatedContent = currentContent.replace(anchor, newBlock);
-
-      var updatedBase64 = btoa(unescape(encodeURIComponent(updatedContent)));
-
-      // 3. Push updated kazi-zetu.html
-      await ghRequest(apiBase + 'kazi-zetu.html', {
-        method: 'PUT',
-        body: JSON.stringify({
-          message: 'Update kazi-zetu.html: add ' + title,
-          content: updatedBase64,
-          sha: currentFile.sha
-        })
-      });
-
-      showStatus('ok', '✅ Kazi "' + title + '" imepakiwa kikamilifu! Netlify itasasisha tovuti ndani ya dakika 1-2.');
-      titleEl.value = '';
-      subtitleEl.value = '';
-      tagEl.value = '';
-      imageEl.value = '';
-      fileDropLabel.textContent = 'Bonyeza hapa kuchagua picha (.jpg/.png)';
-      fileDrop.classList.remove('has-file');
-
-    } catch(err){
-      showStatus('err', '❌ Hitilafu: ' + err.message);
-    } finally {
-      submitBtn.disabled = false;
-    }
+  function saveCfg(){
+    localStorage.setItem(K.t, $('sToken').value.trim());
+    localStorage.setItem(K.o, $('sOwner').value.trim());
+    localStorage.setItem(K.r, $('sRepo').value.trim());
+    localStorage.setItem(K.b, $('sBranch').value.trim() || 'main');
+  }
+  $('saveBtn').addEventListener('click', function(){ saveCfg(); show($('stStatus'), 'ok', 'Mipangilio imehifadhiwa.'); });
+  $('clearBtn').addEventListener('click', function(){
+    localStorage.removeItem(K.t);
+    $('sToken').value = '';
+    show($('stStatus'), 'ok', 'Token imefutwa kwenye simu hii.');
   });
+  $('testBtn').addEventListener('click', async function(){
+    saveCfg();
+    show($('stStatus'), 'loading', 'Inajaribu...');
+    try{
+      var c = cfg();
+      await gh(api('kazi-zetu.html') + '?ref=' + c.branch);
+      show($('stStatus'), 'ok', 'Muunganisho umefanikiwa. kazi-zetu.html imepatikana.');
+    }catch(e){ show($('stStatus'), 'err', e.message); }
+  });
+
+  var pickedBlob = null;
+  $('drop').addEventListener('click', function(){ $('wFile').click(); });
+  $('wFile').addEventListener('change', function(){
+    var f = $('wFile').files[0];
+    if(!f){ return; }
+    $('dropLabel').textContent = f.name;
+    $('drop').classList.add('has');
+    var img = new Image();
+    var url = URL.createObjectURL(f);
+    img.onload = function(){
+      var max = 1000, w = img.width, h = img.height;
+      if(Math.max(w,h) > max){ var r = max / Math.max(w,h); w = Math.round(w*r); h = Math.round(h*r); }
+      var cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      var ctx = cv.getContext('2d');
+      ctx.fillStyle = '#000'; ctx.fillRect(0,0,w,h);
+      ctx.drawImage(img, 0, 0, w, h);
+      cv.toBlob(function(b){
+        pickedBlob = b;
+        $('preview').innerHTML = '<img src="' + URL.createObjectURL(b) + '" alt="preview"><div style="color:var(--silver);font-size:12px;margin-top:6px;">' + Math.round(b.size/1024) + ' KB</div>';
+      }, 'image/jpeg', 0.75);
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+  function blobB64(b){
+    return new Promise(function(res, rej){
+      var r = new FileReader();
+      r.onload = function(){ res(r.result.split(',')[1]); };
+      r.onerror = rej;
+      r.readAsDataURL(b);
+    });
+  }
+
+  $('uploadBtn').addEventListener('click', async function(){
+    var title = $('wTitle').value.trim();
+    var sub = $('wSub').value.trim();
+    var cat = $('wCat').value;
+    var tag = $('wTag').value.trim() || cat;
+    if(!title || !pickedBlob){ show($('upStatus'), 'err', 'Jaza jina la kazi na uchague picha.'); return; }
+    var btn = $('uploadBtn'); btn.disabled = true;
+    try{
+      var c = cfg();
+      var filename = slug(title) + '.jpg';
+      show($('upStatus'), 'loading', 'Inapakia picha...');
+      var existing = null;
+      try{ existing = await gh(api(encodeURIComponent(filename)) + '?ref=' + c.branch); }catch(e){ existing = null; }
+      var body = {message:'Add work image: ' + title, content: await blobB64(pickedBlob), branch: c.branch};
+      if(existing && existing.sha){ body.sha = existing.sha; }
+      await gh(api(encodeURIComponent(filename)), {method:'PUT', body: JSON.stringify(body)});
+
+      show($('upStatus'), 'loading', 'Inasasisha ukurasa wa Kazi Zetu...');
+      var page = await gh(api('kazi-zetu.html') + '?ref=' + c.branch);
+      var html = dec(page.content);
+      var anchor = '    </div>\n  </div>\n</section>\n\n<div class="lightbox" id="lightbox">';
+      if(html.indexOf(anchor) === -1){ throw new Error('Sehemu ya kuongeza kazi haikupatikana kwenye kazi-zetu.html.'); }
+      var block =
+        '      <div class="gallery-item" data-cat="' + cat + '">\n' +
+        '        <span class="tag">' + esc(tag) + '</span>\n' +
+        '        <div class="img-wrap"><img src="' + filename + '" alt="' + esc(title) + '" loading="lazy"></div>\n' +
+        '        <div class="gallery-caption"><h4>' + esc(title) + '</h4><span>' + esc(sub) + '</span></div>\n' +
+        '      </div>\n';
+      html = html.replace(anchor, block + anchor);
+      await gh(api('kazi-zetu.html'), {method:'PUT', body: JSON.stringify({message:'Add work: ' + title, content: enc(html), sha: page.sha, branch: c.branch})});
+      show($('upStatus'), 'ok', 'Kazi "' + esc(title) + '" imepakiwa. Tovuti itasasika ndani ya dakika 1-2.');
+      $('wTitle').value = ''; $('wSub').value = ''; $('wTag').value = ''; $('wFile').value = '';
+      $('dropLabel').textContent = 'Bonyeza kuchagua picha'; $('drop').classList.remove('has'); $('preview').innerHTML = ''; pickedBlob = null;
+    }catch(e){ show($('upStatus'), 'err', e.message); }
+    btn.disabled = false;
+  });
+
+  async function loadWorks(){
+    show($('mgStatus'), 'loading', 'Inapakia orodha...');
+    try{
+      var c = cfg();
+      var page = await gh(api('kazi-zetu.html') + '?ref=' + c.branch);
+      var doc = new DOMParser().parseFromString(dec(page.content), 'text/html');
+      var items = doc.querySelectorAll('.gallery-item');
+      var out = '';
+      items.forEach(function(it){
+        var img = it.querySelector('img');
+        var h4 = it.querySelector('h4');
+        var src = img ? img.getAttribute('src') : '';
+        out += '<div class="work-row"><img src="' + esc(src) + '" alt=""><div class="work-info"><b>' + esc(h4 ? h4.textContent : src) + '</b><span>' + esc(it.getAttribute('data-cat') || '') + '</span></div><button class="del" data-src="' + esc(src) + '" data-title="' + esc(h4 ? h4.textContent : src) + '">Futa</button></div>';
+      });
+      $('works').innerHTML = out;
+      $('count').textContent = 'Kazi ' + items.length + ' zimepatikana';
+      $('mgStatus').className = 'status';
+      document.querySelectorAll('.del').forEach(function(b){
+        b.addEventListener('click', function(){ removeWork(b.dataset.src, b.dataset.title); });
+      });
+    }catch(e){ show($('mgStatus'), 'err', e.message); }
+  }
+  $('loadBtn').addEventListener('click', loadWorks);
+
+  async function removeWork(src, title){
+    if(!confirm('Futa kazi "' + title + '" kwenye tovuti?')){ return; }
+    show($('mgStatus'), 'loading', 'Inafuta...');
+    try{
+      var c = cfg();
+      var page = await gh(api('kazi-zetu.html') + '?ref=' + c.branch);
+      var html = dec(page.content);
+      var i = html.indexOf('src="' + src + '"');
+      if(i === -1){ throw new Error('Kazi haikupatikana kwenye ukurasa.'); }
+      var start = html.lastIndexOf('<div class="gallery-item"', i);
+      start = html.lastIndexOf('\n', start) + 1;
+      var endMark = '\n      </div>';
+      var end = html.indexOf(endMark, i);
+      if(start < 0 || end === -1){ throw new Error('Muundo wa kazi hii hautambuliki, haikufutwa.'); }
+      end = end + endMark.length + 1;
+      html = html.slice(0, start) + html.slice(end);
+      await gh(api('kazi-zetu.html'), {method:'PUT', body: JSON.stringify({message:'Remove work: ' + title, content: enc(html), sha: page.sha, branch: c.branch})});
+      show($('mgStatus'), 'ok', '"' + esc(title) + '" imeondolewa kwenye ukurasa. Tovuti itasasika ndani ya dakika 1-2.');
+      loadWorks();
+    }catch(e){ show($('mgStatus'), 'err', e.message); }
+  }
 })();
 </script>
-
 </body>
 </html>
